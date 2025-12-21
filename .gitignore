@@ -1,0 +1,28 @@
+# R files
+.Rhistory
+.RData
+.Rproj.user
+*.Rproj
+
+# Large data files (see README for download instructions)
+data/*.rds
+data/*.rda
+data/*.RData
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*~
+
+# IDE
+.vscode/
+.idea/
