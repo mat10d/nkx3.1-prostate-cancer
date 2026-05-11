@@ -13,6 +13,11 @@
 # tissue microarray (TMA) cohort based on NKX3.1 subcellular localization
 # (cytoplasmic, nuclear, and total expression).
 #
+# Paper Figure Mapping:
+#   - Figure 7E: Cytoplasmic NKX3.1 BCR-free survival (RP67 TMA)
+#   - Figure 7F: Combined nuclear/cytoplasmic NKX3.1 BCR-free survival
+#   - Supplementary Figure S7C: Nuclear and Total NKX3.1 BCR-free survival
+#
 ################################################################################
 
 # Load required libraries
@@ -51,7 +56,7 @@ dir.create("../results/TMA-RP67/BCR", recursive = TRUE, showWarnings = FALSE)
 
 # Prepare cytoplasmic NKX3.1 data
 cyto_BCR <- mysheets$`Cytoplasmic NKX3.1 expression` %>%
-  left_join(mysheets$`BCR-free Survival`, by = "TMA #") %>%
+  left_join(mysheets$`BCR-free Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 
@@ -116,7 +121,7 @@ write.csv(cyto_summary, "../results/TMA-RP67/BCR/cyto_BCR_summary.csv", row.name
 
 # Prepare nuclear NKX3.1 data
 nucl_BCR <- mysheets$`Nuclear NKX3.1 expression` %>%
-  left_join(mysheets$`BCR-free Survival`, by = "TMA #") %>%
+  left_join(mysheets$`BCR-free Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 
@@ -180,7 +185,7 @@ write.csv(nucl_summary, "../results/TMA-RP67/BCR/nucl_BCR_summary.csv", row.name
 
 # Prepare total NKX3.1 data
 total_BCR <- mysheets$`Total NKX3.1 expression` %>%
-  left_join(mysheets$`BCR-free Survival`, by = "TMA #") %>%
+  left_join(mysheets$`BCR-free Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 
@@ -248,12 +253,12 @@ nuc_cyto_bcr <- mysheets$`Nuclear NKX3.1 expression` %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1) %>%
   dplyr::rename(Nucl_NKX3.1 = `NKX3.1 High`) %>%
   dplyr::select(-`NKX3.1 Low`) %>%
-  left_join(mysheets$`Cytoplasmic NKX3.1 expression`, by = "TMA #") %>%
+  left_join(mysheets$`Cytoplasmic NKX3.1 expression`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1) %>%
   dplyr::rename(Cyto_NKX3.1 = `NKX3.1 High`) %>%
   dplyr::select(-`NKX3.1 Low`) %>%
-  left_join(mysheets$`BCR-free Survival`, by = "TMA #") %>%
+  left_join(mysheets$`BCR-free Survival`, by = "Case #") %>%
   dplyr::filter(!is.na(BCR))
 
 # Fit survival curves for combined groups

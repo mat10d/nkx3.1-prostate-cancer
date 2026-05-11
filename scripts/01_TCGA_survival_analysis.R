@@ -14,6 +14,10 @@
 # It performs survival analysis using Cox proportional hazards models and
 # generates Kaplan-Meier plots.
 #
+# Paper Figure Mapping:
+#   - Figure 7G: HSPA9/NKX3.1 combined BCR survival (TCGA PRAD)
+#   - Figure 7H: HSPA9 extreme quartiles BCR survival (TCGA PRAD)
+#
 ################################################################################
 
 # Load required libraries

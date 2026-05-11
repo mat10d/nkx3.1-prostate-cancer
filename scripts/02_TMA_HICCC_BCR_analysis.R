@@ -13,6 +13,11 @@
 # tissue microarray (TMA) cohort based on NKX3.1 subcellular localization
 # (cytoplasmic, nuclear, and total expression).
 #
+# Paper Figure Mapping:
+#   - Figure 7A: Cytoplasmic NKX3.1 BCR-free survival (HICCC TMA)
+#   - Supplementary Figure S7A: Nuclear NKX3.1 BCR-free survival
+#   - Supplementary Figure S7A: Total NKX3.1 BCR-free survival
+#
 ################################################################################
 
 # Load required libraries
@@ -56,7 +61,7 @@ dir.create("../results/TMA-HICCC/BCR", recursive = TRUE, showWarnings = FALSE)
 
 # Prepare cytoplasmic NKX3.1 data
 cyto_BCR <- mysheets$`Cytoplasmic NKX3.1 expression` %>%
-  left_join(mysheets$`BCR-free Survival`, by = "TMA #") %>%
+  left_join(mysheets$`BCR-free Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 
@@ -120,7 +125,7 @@ write.csv(cyto_summary, "../results/TMA-HICCC/BCR/cyto_BCR_summary.csv", row.nam
 
 # Prepare nuclear NKX3.1 data
 nucl_BCR <- mysheets$`Nuclear NKX3.1 expression` %>%
-  left_join(mysheets$`BCR-free Survival`, by = "TMA #") %>%
+  left_join(mysheets$`BCR-free Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 
@@ -184,7 +189,7 @@ write.csv(nucl_summary, "../results/TMA-HICCC/BCR/nucl_BCR_summary.csv", row.nam
 
 # Prepare total NKX3.1 data
 total_BCR <- mysheets$`Total NKX3.1 expression` %>%
-  left_join(mysheets$`BCR-free Survival`, by = "TMA #") %>%
+  left_join(mysheets$`BCR-free Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 

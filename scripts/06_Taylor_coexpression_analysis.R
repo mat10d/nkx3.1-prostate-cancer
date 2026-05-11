@@ -14,6 +14,9 @@
 # contains microarray data, and HSPA9B has three probe sets that are analyzed
 # separately.
 #
+# Paper Figure Mapping:
+#   - Supplementary Figure S6E: NKX3.1 vs HSPA9B correlation (Taylor 2010)
+#
 # Reference:
 # Taylor BS et al. (2010) Integrative genomic profiling of human prostate cancer.
 # Cancer Cell 18(1):11-22.

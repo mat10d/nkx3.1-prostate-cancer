@@ -14,6 +14,9 @@
 # showing the relationship between these genes using both raw counts and
 # variance-stabilized normalized expression values.
 #
+# Paper Figure Mapping:
+#   - Supplementary Figure S6D: NKX3.1 vs HSPA9 correlation (TCGA PRAD)
+#
 ################################################################################
 
 # Load required libraries

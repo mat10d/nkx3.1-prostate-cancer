@@ -14,6 +14,13 @@
 # total expression). It also performs multivariate analysis adjusting for
 # clinical covariates (Gleason score, T-stage, age, SVI, PSA).
 #
+# Paper Figure Mapping:
+#   - Figure 7B: Cytoplasmic NKX3.1 overall survival (HICCC TMA)
+#   - Figure 7C: Combined nuclear/cytoplasmic NKX3.1 overall survival
+#   - Figure 7D: Multivariate analysis (forest plot data)
+#   - Supplementary Figure S7B: Nuclear NKX3.1 overall survival
+#   - Supplementary Figure S7B: Total NKX3.1 overall survival
+#
 ################################################################################
 
 # Load required libraries
@@ -52,7 +59,7 @@ dir.create("../results/TMA-HICCC/Overall", recursive = TRUE, showWarnings = FALS
 
 # Prepare cytoplasmic NKX3.1 data
 cyto_overall <- mysheets$`Cytoplasmic NKX3.1 expression` %>%
-  left_join(mysheets$`Overall Survival`, by = "TMA #") %>%
+  left_join(mysheets$`Overall Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 
@@ -107,7 +114,7 @@ write.csv(cyto_summary, "../results/TMA-HICCC/Overall/cyto_overall_summary.csv",
 ################################################################################
 
 nucl_overall <- mysheets$`Nuclear NKX3.1 expression` %>%
-  left_join(mysheets$`Overall Survival`, by = "TMA #") %>%
+  left_join(mysheets$`Overall Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 
@@ -157,7 +164,7 @@ write.csv(nucl_summary, "../results/TMA-HICCC/Overall/nucl_overall_summary.csv",
 ################################################################################
 
 total_overall <- mysheets$`Total NKX3.1 expression` %>%
-  left_join(mysheets$`Overall Survival`, by = "TMA #") %>%
+  left_join(mysheets$`Overall Survival`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1)
 
@@ -211,12 +218,12 @@ nuc_cyto_overall <- mysheets$`Nuclear NKX3.1 expression` %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1) %>%
   dplyr::rename(Nucl_NKX3.1 = `NKX3.1 High`) %>%
   dplyr::select(-`NKX3.1 Low`) %>%
-  left_join(mysheets$`Cytoplasmic NKX3.1 expression`, by = "TMA #") %>%
+  left_join(mysheets$`Cytoplasmic NKX3.1 expression`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1) %>%
   dplyr::rename(Cyto_NKX3.1 = `NKX3.1 High`) %>%
   dplyr::select(-`NKX3.1 Low`) %>%
-  left_join(mysheets$`Overall Survival`, by = "TMA #")
+  left_join(mysheets$`Overall Survival`, by = "Case #")
 
 fit <- survfit(Surv(Months, Dead) ~ Nucl_NKX3.1 + Cyto_NKX3.1, data = nuc_cyto_overall)
 
@@ -312,12 +319,12 @@ perform_univariate_analysis <- function(data, covariates) {
 
 # Cytoplasmic - Multivariate with full covariates
 cyto_overall_multi <- mysheets$`Cytoplasmic NKX3.1 expression` %>%
-  left_join(mysheets$`Overall Survival`, by = "TMA #") %>%
-  left_join(mysheets$`Gleason Score`, by = "TMA #") %>%
-  left_join(mysheets$`T-stage`, by = "TMA #") %>%
-  left_join(mysheets$`Age at RP`, by = "TMA #") %>%
-  left_join(mysheets$SVI, by = "TMA #") %>%
-  left_join(mysheets$`PSA levels`, by = "TMA #") %>%
+  left_join(mysheets$`Overall Survival`, by = "Case #") %>%
+  left_join(mysheets$`Gleason Score`, by = "Case #") %>%
+  left_join(mysheets$`T-stage`, by = "Case #") %>%
+  left_join(mysheets$`Age at RP`, by = "Case #") %>%
+  left_join(mysheets$SVI, by = "Case #") %>%
+  left_join(mysheets$`PSA levels`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1) %>%
   dplyr::rename(NKX3.1 = `NKX3.1 High`) %>%
@@ -343,12 +350,12 @@ write.csv(as.data.frame(res), "../results/TMA-HICCC/Overall/cyto_overall_univari
 ################################################################################
 
 nucl_overall_multi <- mysheets$`Nuclear NKX3.1 expression` %>%
-  left_join(mysheets$`Overall Survival`, by = "TMA #") %>%
-  left_join(mysheets$`Gleason Score`, by = "TMA #") %>%
-  left_join(mysheets$`T-stage`, by = "TMA #") %>%
-  left_join(mysheets$`Age at RP`, by = "TMA #") %>%
-  left_join(mysheets$SVI, by = "TMA #") %>%
-  left_join(mysheets$`PSA levels`, by = "TMA #") %>%
+  left_join(mysheets$`Overall Survival`, by = "Case #") %>%
+  left_join(mysheets$`Gleason Score`, by = "Case #") %>%
+  left_join(mysheets$`T-stage`, by = "Case #") %>%
+  left_join(mysheets$`Age at RP`, by = "Case #") %>%
+  left_join(mysheets$SVI, by = "Case #") %>%
+  left_join(mysheets$`PSA levels`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1) %>%
   dplyr::rename(NKX3.1 = `NKX3.1 High`) %>%
@@ -371,12 +378,12 @@ write.csv(as.data.frame(res), "../results/TMA-HICCC/Overall/nucl_overall_univari
 ################################################################################
 
 total_overall_multi <- mysheets$`Total NKX3.1 expression` %>%
-  left_join(mysheets$`Overall Survival`, by = "TMA #") %>%
-  left_join(mysheets$`Gleason Score`, by = "TMA #") %>%
-  left_join(mysheets$`T-stage`, by = "TMA #") %>%
-  left_join(mysheets$`Age at RP`, by = "TMA #") %>%
-  left_join(mysheets$SVI, by = "TMA #") %>%
-  left_join(mysheets$`PSA levels`, by = "TMA #") %>%
+  left_join(mysheets$`Overall Survival`, by = "Case #") %>%
+  left_join(mysheets$`Gleason Score`, by = "Case #") %>%
+  left_join(mysheets$`T-stage`, by = "Case #") %>%
+  left_join(mysheets$`Age at RP`, by = "Case #") %>%
+  left_join(mysheets$SVI, by = "Case #") %>%
+  left_join(mysheets$`PSA levels`, by = "Case #") %>%
   mutate_at(vars(`NKX3.1 High`), recode, "Y" = 2) %>%
   mutate_at(vars(`NKX3.1 High`), replace_na, 1) %>%
   dplyr::rename(NKX3.1 = `NKX3.1 High`) %>%
